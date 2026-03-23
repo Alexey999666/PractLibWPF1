@@ -1,0 +1,121 @@
+﻿<Window x:Class="PractLibWPF1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PractLibWPF1"
+        mc:Ignorable="d"
+        Title="Библиотечная система" Height="550" Width="1000" 
+        Loaded="DBLoaded_Loaded">
+    <Grid>
+        <TabControl>
+            <!-- Вкладка Книги -->
+            <TabItem Header="Книги">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Просмотр всех книг" Grid.Row="0" FontSize="14" FontWeight="Bold"/>
+
+                    <DataGrid Grid.Row="1" x:Name="DGBooks" 
+                              IsReadOnly="True" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding BookId}" Width="50"/>
+                            <DataGridTextColumn Header="Автор" Binding="{Binding Author}" Width="150"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="200"/>
+                            <DataGridTextColumn Header="Год" Binding="{Binding YearPublished}" Width="60"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:C}}" Width="80"/>
+                            <DataGridTextColumn Header="Всего экз." Binding="{Binding TotalCopies}" Width="80"/>
+                            <DataGridTextColumn Header="На полке" Binding="{Binding AvailableCopies}" Width="80"/>
+                            <DataGridTextColumn Header="Анотация" Binding="{Binding Annotation}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="2">
+                        <Button x:Name="btnAddBook" Click="btnAddBook_Clicked"
+                                Content="Добавить" Height="40" Width="100" Margin="10" />
+                        <Button x:Name="btnUpdateBook" Click="btnUpdateBook_Clicked"
+                                Content="Редактировать" Height="40" Width="100" Margin="10"/>
+                        <Button x:Name="btnDeleteBook" Click="btnDeleteBook_Clicked"
+                                Content="Удалить" Height="40" Width="100" Margin="10" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="3">
+                        <StackPanel Margin="0,0,10,0" HorizontalAlignment="Center">
+                            <Label Content="Быстрый поиск по названию" HorizontalAlignment="Center"/>
+                            <TextBox x:Name="tbBookFindTitle" TextChanged="tbBookFindTitle_Changed"
+                                     Height="35" Width="150" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,10,0" HorizontalAlignment="Center">
+                            <Label Content="Запрос 1: Книга с макс. кол-вом на полках" HorizontalAlignment="Center"/>
+                            <Button x:Name="btnMostCopiesOnShelf" Click="btnMostCopiesOnShelf_Clicked"
+                                    Content="Выполнить" Height="35" Width="100" Margin="5"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,10,0" HorizontalAlignment="Center">
+                            <Label Content="Запрос 3: Самая популярная весной 2000" HorizontalAlignment="Center"/>
+                            <Button x:Name="btnMostPopularSpring2000" Click="btnMostPopularSpring2000_Clicked"
+                                    Content="Выполнить" Height="35" Width="100" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- Вкладка Читатели -->
+            <TabItem Header="Читатели">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Просмотр всех читателей" Grid.Row="0" FontSize="14" FontWeight="Bold"/>
+
+                    <DataGrid Grid.Row="1" x:Name="DGReaders" 
+                              IsReadOnly="True" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ReaderId}" Width="50"/>
+                            <DataGridTextColumn Header="№ билета" Binding="{Binding LibraryCardNumber}" Width="120"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="200"/>
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="180"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="120"/>
+                            <DataGridCheckBoxColumn Header="Выбыл" Binding="{Binding IsDeleted}" Width="60"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="2">
+                        <Button x:Name="btnAddReader" Click="btnAddReader_Clicked"
+                                Content="Добавить" Height="40" Width="100" Margin="10" />
+                        <Button x:Name="btnUpdateReader" Click="btnUpdateReader_Clicked"
+                                Content="Редактировать" Height="40" Width="100" Margin="10"/>
+                        <Button x:Name="btnDeleteReader" Click="btnDeleteReader_Clicked"
+                                Content="Удалить" Height="40" Width="100" Margin="10" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="3">
+                        <StackPanel Margin="0,0,10,0" HorizontalAlignment="Center">
+                            <Label Content="Быстрый поиск по ФИО" HorizontalAlignment="Center"/>
+                            <TextBox x:Name="tbReaderFindName" TextChanged="tbReaderFindName_Changed"
+                                     Height="35" Width="150" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <StackPanel Margin="0,0,10,0" HorizontalAlignment="Center">
+                            <Label Content="Запрос 2: Читатели с задолж. более 4 мес." HorizontalAlignment="Center"/>
+                            <Button x:Name="btnDebtors4Months" Click="btnDebtors4Months_Clicked"
+                                    Content="Выполнить" Height="35" Width="100" Margin="5"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,10,0" HorizontalAlignment="Center">
+                            <Label Content="Запрос 4: Читатели с книгами на сумму > 100 руб." HorizontalAlignment="Center"/>
+                            <Button x:Name="btnTotalPriceMore100" Click="btnTotalPriceMore100_Clicked"
+                                    Content="Выполнить" Height="35" Width="100" Margin="5"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
