@@ -280,8 +280,15 @@ namespace PractLibWPF1
         // Быстрый поиск по книгам (по названию)
         private void tbBookFindTitle_Changed(object sender, TextChangedEventArgs e)
         {
-            List<dynamic> books = (List<dynamic>)DGBooks.ItemsSource;
-            var findBook = books.FirstOrDefault(p => p.Title?.Contains(tbBookFindTitle.Text) == true);
+            if (DGBooks.ItemsSource == null || string.IsNullOrWhiteSpace(tbBookFindTitle.Text))
+                return;
+
+            var books = DGBooks.ItemsSource as System.Collections.IEnumerable;
+            if (books == null) return;
+
+            var findBook = books.Cast<dynamic>()
+                .FirstOrDefault(p => p.Title?.ToString()?.Contains(tbBookFindTitle.Text) == true);
+
             if (findBook != null)
             {
                 DGBooks.SelectedItem = findBook;
